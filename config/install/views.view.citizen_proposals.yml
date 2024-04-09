@@ -12,10 +12,10 @@ dependencies:
     - node
     - options
     - user
-id: all_citizen_proposals
-label: 'Alle borgerforslag'
+id: citizen_proposals
+label: 'Citizen proposals'
 module: views
-description: 'En liste af alle høringer'
+description: 'A list of all citizen proposals'
 tag: ''
 base_table: node_field_data
 base_field: nid

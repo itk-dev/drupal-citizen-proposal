@@ -3,16 +3,6 @@ services:
     tags:
       - { name: content_fixture }
     arguments:
-      - '@Drupal\hoeringsportal_base_fixtures\Helper\Helper'
       - '@Drupal\citizen_proposal\Helper\Helper'
       - '@event_dispatcher'
       - '@Drupal\citizen_proposal\Helper\MailHelper'
-      - '@Drupal\citizen_proposal_archiving\Helper\Helper'
-
-  Drupal\citizen_proposal_fixtures\Fixture\CitizenProposalLandingPageFixture:
-    tags:
-      - { name: content_fixture }
-
-  Drupal\citizen_proposal_fixtures\Fixture\CitizenProposalStaticPageFixture:
-    tags:
-      - { name: content_fixture }

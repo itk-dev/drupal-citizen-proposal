@@ -5,14 +5,9 @@ namespace Drupal\citizen_proposal_fixtures\Fixture;
 use Drupal\citizen_proposal\Form\ProposalFormBase;
 use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\citizen_proposal\Helper\MailHelper;
-use Drupal\citizen_proposal_archiving\Helper\Helper as ArchiveHelper;
 use Drupal\content_fixtures\Fixture\AbstractFixture;
-use Drupal\content_fixtures\Fixture\DependentFixtureInterface;
 use Drupal\content_fixtures\Fixture\FixtureGroupInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\hoeringsportal_base_fixtures\Fixture\MediaFixture;
-use Drupal\hoeringsportal_base_fixtures\Fixture\ParagraphFixture;
-use Drupal\hoeringsportal_base_fixtures\Helper\Helper as BaseFixtureHelper;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -23,21 +18,18 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package Drupal\citizen_proposal_fixtures\Fixture
  */
-class CitizenProposalFixture extends AbstractFixture implements DependentFixtureInterface, FixtureGroupInterface {
+class CitizenProposalFixture extends AbstractFixture implements FixtureGroupInterface {
 
   /**
    * Constructor.
    */
   public function __construct(
-    readonly private BaseFixtureHelper $baseFixtureHelper,
     readonly private Helper $helper,
     EventDispatcherInterface $eventDispatcher,
-    MailHelper $mailHelper,
-    ArchiveHelper $archivingHelper
+    MailHelper $mailHelper
   ) {
     // Prevent sending notification emails.
     $eventDispatcher->removeSubscriber($mailHelper);
-    $eventDispatcher->removeSubscriber($archivingHelper);
   }
 
   /**
@@ -54,11 +46,15 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
       'field_author_email' => 'anders.and@itkdev.dk',
       'field_content_state' => 'upcoming',
       'field_proposal' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtmlShort.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
       'field_remarks' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtmlShort.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
     ]);
@@ -86,11 +82,15 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
       'field_author_email' => 'fedtmule@itkdev.dk',
       'field_content_state' => 'finished',
       'field_proposal' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtml1.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
       'field_remarks' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtmlLong.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
     ]);
@@ -106,7 +106,6 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
     for ($i = 0; $i < 3; $i++) {
       $this->helper->saveSupport(uniqid('', TRUE), $entity, ['user_name' => self::class]);
     }
-    $this->helper->saveSupport(uniqid('', TRUE), $entity, ['user_name' => 'Ø']);
 
     $entity = Node::create([
       'type' => 'citizen_proposal',
@@ -117,11 +116,15 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
       'field_author_email' => 'givmiglykkemønten@itkdev.dk',
       'field_content_state' => 'active',
       'field_proposal' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtmlLong.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
       'field_remarks' => [
-        'value' => $this->baseFixtureHelper->getText('filteredHtmlLong.html'),
+        'value' => <<<'VALUE'
+
+VALUE,
         'format' => ProposalFormBase::CONTENT_TEXT_FORMAT,
       ],
     ]);
@@ -133,14 +136,14 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
     if (isset($data['citizen_proposal_admin_form_values'])) {
       $values = $data['citizen_proposal_admin_form_values'];
 
-      /** @var \Drupal\node\Entity\NodeInterface $node */
-      $node = $this->getReference('node:static_page:thanks');
-      $values['approve_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
-
-      /** @var \Drupal\node\Entity\NodeInterface $node */
-      $node = $this->getReference('node:landing_page:Proposals');
-      $values['cancel_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
-
+      // @FIXME How do we handles the pages around proposals
+      // /** @var \Drupal\node\Entity\NodeInterface $node */
+      // $node = $this->getReference('node:static_page:thanks');
+      // $values['approve_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
+      //
+      // /** @var \Drupal\node\Entity\NodeInterface $node */
+      // $node = $this->getReference('node:landing_page:Proposals');
+      // $values['cancel_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
       $this->helper->setAdminValues($values);
     }
   }
@@ -148,20 +151,8 @@ class CitizenProposalFixture extends AbstractFixture implements DependentFixture
   /**
    * {@inheritdoc}
    */
-  public function getDependencies() {
-    return [
-      MediaFixture::class,
-      ParagraphFixture::class,
-      CitizenProposalLandingPageFixture::class,
-      CitizenProposalStaticPageFixture::class,
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getGroups() {
-    return ['node'];
+    return ['citizen_proposal'];
   }
 
 }

@@ -5,9 +5,21 @@ A Drupal module for handling citizen proposals.
 ## Installation
 
 ```shell
+# Install module and dependencies
 composer config repositories.itk-dev/drupal-citizen-proposal vcs https://github.com/itk-dev/drupal-citizen-proposal
 composer require drupal/citizen_proposal
+
+# Enable the module
+drush pm:enable citizen_proposal
 ```
+
+## Configuration
+
+Go to `/admin/citizen-proposal`.
+
+## Usage
+
+See all proposals on `/citizen-proposal`.
 
 ## Cron jobs to run
 
@@ -204,39 +216,4 @@ and sign in (in the local IdP) with username `aarhusianer` and password
 
 ## Development
 
-### Coding standards
-
-Our coding are checked by GitHub Actions (cf.
-[.github/workflows/pr.yml](.github/workflows/pr.yml)). Use the commands below to
-run the checks locally.
-
-#### PHP
-
-```sh
-docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer install
-# Fix (some) coding standards issues
-docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-apply
-# Check that code adheres to the coding standards
-docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-check
-```
-
-#### Markdown
-
-```sh
-docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn install
-# Fix (some) coding standards issues.
-docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-apply/markdownlint
-# Check that code adheres to the coding standards
-docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-check/markdownlint
-```
-
-### Code analysis
-
-We use [PHPStan](https://phpstan.org/) for static code analysis.
-
-Running statis code analysis on a standalone Drupal module is a bit tricky, so we use a helper script to run the
-analysis:
-
-```sh
-docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm scripts/code-analysis
-```
+See <docs/Development.md>.

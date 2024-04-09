@@ -5,6 +5,7 @@ namespace Drupal\citizen_proposal\Helper;
 use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityInterface;
@@ -268,13 +269,12 @@ class Helper implements LoggerAwareInterface {
   public function proposalPageAttachments(&$page): void {
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->routeMatch->getParameter('node');
-    if (!$node) {
+    if (!$node
+      || 'citizen_proposal' !== $node->bundle()) {
       return;
     }
 
-    if ('citizen_proposal' !== $node->bundle()) {
-      return;
-    }
+    $description = strip_tags((string)$node->get('field_proposal')->processed);
 
     $og = [
       'title' => [
@@ -296,7 +296,7 @@ class Helper implements LoggerAwareInterface {
         '#tag' => 'meta',
         '#attributes' => [
           'property' => 'og:description',
-          'content' => substr($node->field_proposal->value, 0, 150) . '...',
+          'content' => Unicode::truncate($description, 150, true, true),
         ],
       ],
       'url' => [
