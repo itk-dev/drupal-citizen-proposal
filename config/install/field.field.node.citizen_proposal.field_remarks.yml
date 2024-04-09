@@ -1,0 +1,25 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - field.storage.node.field_remarks
+    - filter.format.citizen_proposal_content
+    - node.type.citizen_proposal
+  module:
+    - text
+id: node.citizen_proposal.field_remarks
+field_name: field_remarks
+entity_type: node
+bundle: citizen_proposal
+label: Bemærkninger
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - citizen_proposal_content
+field_type: text_long

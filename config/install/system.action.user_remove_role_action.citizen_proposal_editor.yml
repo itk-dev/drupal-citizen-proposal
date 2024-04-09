@@ -1,0 +1,15 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - user.role.citizen_proposal_editor
+  module:
+    - user
+id: user_remove_role_action.citizen_proposal_editor
+label: 'Remove the Citizen proposal editor role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: citizen_proposal_editor

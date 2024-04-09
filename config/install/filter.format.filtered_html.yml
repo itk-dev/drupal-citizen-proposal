@@ -1,0 +1,37 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+name: 'Filtered html'
+format: filtered_html
+weight: 0
+filters:
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: true
+    weight: 9
+    settings: {  }
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <cite> <a hreflang target href> <blockquote cite> <ul type> <ol type start> <strong> <em> <li>'
+      filter_html_help: true
+      filter_html_nofollow: false
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: -50
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: false
+    weight: -50
+    settings:
+      filter_url_length: 72

@@ -38,7 +38,7 @@ final class TestMailCommand extends BaseDrushCommands {
   /**
    * Send mail command.
    */
-  #[CLI\Command(name: 'hoeringsportal-citizen-proposal:test-mail:send')]
+  #[CLI\Command(name: 'citizen-proposal:test-mail:send')]
   #[CLI\Argument(name: 'proposalId', description: 'The proposal (node) id.')]
   #[CLI\Argument(name: 'event', description: 'The event; "create" or "update".', suggestedValues: ['create', 'update'])]
   #[CLI\Argument(name: 'recipient', description: 'The mail recipient.')]
