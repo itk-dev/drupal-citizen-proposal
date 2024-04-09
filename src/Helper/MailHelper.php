@@ -2,9 +2,9 @@
 
 namespace Drupal\citizen_proposal\Helper;
 
+use Drupal\citizen_proposal\Helper\Helper as CitizenProposalHelper;
 use Drupal\entity_events\EntityEventType;
 use Drupal\entity_events\Event\EntityEvent;
-use Drupal\citizen_proposal\Helper\Helper as CitizenProposalHelper;
 use Drupal\node\NodeInterface;
 use Drupal\symfony_mailer\EmailFactoryInterface;
 use Psr\Log\LoggerAwareInterface;

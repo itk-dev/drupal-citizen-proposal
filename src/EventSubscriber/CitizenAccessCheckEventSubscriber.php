@@ -2,12 +2,12 @@
 
 namespace Drupal\citizen_proposal\EventSubscriber;
 
-use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Logger\LoggerChannel;
-use Drupal\Core\Site\Settings;
 use Drupal\citizen_proposal\Helper\CitizenAccessChecker;
 use Drupal\citizen_proposal\Helper\CprHelper;
 use Drupal\citizen_proposal\Helper\Helper;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Logger\LoggerChannel;
+use Drupal\Core\Site\Settings;
 use Drupal\hoeringsportal_openid_connect\Event\AccessCheckEvent;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerTrait;

@@ -2,10 +2,10 @@
 
 namespace Drupal\citizen_proposal\Plugin\Block;
 
+use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\citizen_proposal\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

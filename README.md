@@ -1,19 +1,22 @@
-# Hoeringsportal citizen proposal module
+# Citizen proposal
 
-Code related to citizen proposal functionality.
+A Drupal module for handling citizen proposals.
+
+## Installation
+
+```shell
+composer config repositories.itk-dev/drupal-citizen-proposal vcs https://github.com/itk-dev/drupal-citizen-proposal
+composer require drupal/citizen_proposal
+```
 
 ## Cron jobs to run
 
-For the functionality of the module to work properly, certain cron jobs need
-to run.
-
-These jobs may need to be modified to match server environment and server
-directory naming.
+For the functionality of the module to work properly, certain cron jobs need to run:
 
 ### Cronjob for finishing overdue proposals
 
-```sh
-*/5 * * * * (cd /data/www/deltag_aarhus_dk/htdocs && /usr/local/bin/itkdev-docker-compose-server exec --user deploy phpfpm vendor/bin/drush hoeringsportal-citizen-proposal:finish-overdue-proposals) > /dev/null 2>&1; /usr/local/bin/cron-exit-status -c 'deltag.aarhus.dk' -v $?
+```shell
+*/5 * * * * drush citizen-proposal:finish-overdue-proposals > /dev/null 2>&1
 ```
 
 ## Settings
@@ -30,10 +33,9 @@ $settings['proposal_support_required'] = 1500;
 
 ## Mails
 
-We use [Drupal Symfony Mailer](https://www.drupal.org/project/symfony_mailer)
-and a custom mail builder,
-[CitizenEmailBuilder](src/Plugin/EmailBuilder/CitizenEmailBuilder.php), to get
-the recipient email address from the proposal (node).
+We use [Drupal Symfony Mailer](https://www.drupal.org/project/symfony_mailer) and a custom mail builder,
+[CitizenEmailBuilder](src/Plugin/EmailBuilder/CitizenEmailBuilder.php), to get the recipient email address from the
+proposal (node).
 
 ### SMTP
 
@@ -46,8 +48,8 @@ $config['symfony_mailer.mailer_transport.smtp']['configuration']['host'] = 'host
 $config['symfony_mailer.mailer_transport.smtp']['configuration']['port'] = '25';
 ```
 
-An confirmation email is sent to the citizen when a new proposal has been added
-and an editor gets a mail notification as well.
+An confirmation email is sent to the citizen when a new proposal has been added and an editor gets a mail notification
+as well.
 
 When a proposal is published an email is sent to the citizen.
 
@@ -111,20 +113,18 @@ The notification mails use templates in
 
 ### Testing and debugging email
 
-The Drush command `hoeringsportal-citizen-proposal:test-mail:send` can be used
-to debug emails:
+The Drush command `citizen-proposal:test-mail:send` can be used to debug emails:
 
-```sh
-docker compose exec phpfpm vendor/bin/drush hoeringsportal-citizen-proposal:test-mail:send --help
+```shell
+drush citizen-proposal:test-mail:send --help
 ```
 
-After [loading fixtures](../../../../documentation/localDevelopment.md), run
-something like
+After [loading fixtures](../../../../documentation/localDevelopment.md), run something like
 
-```sh
+```shell
 # Get a list of citizen proposal ids
 docker compose exec phpfpm vendor/bin/drush sql:query "SELECT nid, title FROM node_field_data WHERE type = 'citizen_proposal'"
-docker compose exec phpfpm vendor/bin/drush hoeringsportal-citizen-proposal:test-mail:send 87 create test@example.com
+docker compose exec phpfpm vendor/bin/drush citizen-proposal:test-mail:send 87 create test@example.com
 ```
 
 ## Surveys
@@ -201,3 +201,42 @@ and sign in (in the local IdP) with username `aarhusianer` and password
 `aarhusianer` to get access. Sign in with `ikke-aarhusianer` and
 `ikke-aarhusianer` to be denied access (cf.
 [docker-compose.override.yml](../../../../docker-compose.override.yml)).
+
+## Development
+
+### Coding standards
+
+Our coding are checked by GitHub Actions (cf.
+[.github/workflows/pr.yml](.github/workflows/pr.yml)). Use the commands below to
+run the checks locally.
+
+#### PHP
+
+```sh
+docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer install
+# Fix (some) coding standards issues
+docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-apply
+# Check that code adheres to the coding standards
+docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-check
+```
+
+#### Markdown
+
+```sh
+docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn install
+# Fix (some) coding standards issues.
+docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-apply/markdownlint
+# Check that code adheres to the coding standards
+docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-check/markdownlint
+```
+
+### Code analysis
+
+We use [PHPStan](https://phpstan.org/) for static code analysis.
+
+Running statis code analysis on a standalone Drupal module is a bit tricky, so we use a helper script to run the
+analysis:
+
+```sh
+docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm scripts/code-analysis
+```

@@ -2,6 +2,7 @@
 
 namespace Drupal\citizen_proposal\Helper;
 
+use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Database\Connection;
@@ -19,7 +20,6 @@ use Drupal\Core\TempStore\PrivateTempStore;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
-use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Psr\Log\LoggerAwareInterface;
