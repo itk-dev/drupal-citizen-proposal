@@ -1,8 +1,23 @@
-name: Hoeringsportal citizen proposal
+name: Citizen proposal
 type: module
-description: 'Stuff related to citizen proposal content type'
+description: 'Citizen proposal'
 package: ITK
-core_version_requirement: ^8.8 || ^9 || ^10
+core_version_requirement: ^10
 dependencies:
-  - twig_tweak:twig_tweak
+  - drupal:better_exposed_filters
+  - drupal:entity_events
   - drupal:symfony_mailer
+  - drupal:twig_tweak
+  - drupal:datetime
+  - drupal:field_group
+  - drupal:file
+  - drupal:webform
+  - drupal:rest
+  - drupal:view_custom_table
+  - drupal:xls_serialization
+  - drupal:views_data_export
+  - drupal:menu_ui
+  - drupal:options
+  - drupal:language
+  - drupal:ckeditor5
+  - drupal:ds

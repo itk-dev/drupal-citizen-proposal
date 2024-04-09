@@ -33,7 +33,7 @@ final class DrushCommands extends BaseDrushCommands {
   /**
    * A drush command for finishing a specific proposal.
    */
-  #[CLI\Command(name: 'hoeringsportal-citizen-proposal:finish-proposal')]
+  #[CLI\Command(name: 'citizen-proposal:finish-proposal')]
   #[CLI\Argument(name: 'proposalId', description: 'The proposal (node) id to finish')]
   public function finishProposal(int $proposalId): void {
     $this->helper->finishProposal($proposalId);
@@ -42,7 +42,7 @@ final class DrushCommands extends BaseDrushCommands {
   /**
    * A drush command for finishing all overdue proposals.
    */
-  #[CLI\Command(name: 'hoeringsportal-citizen-proposal:finish-overdue-proposals')]
+  #[CLI\Command(name: 'citizen-proposal:finish-overdue-proposals')]
   public function finishOverdueProposals(): void {
     $overdueProposals = $this->helper->findOverdueProposals();
 

@@ -1,0 +1,5 @@
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+user_uuid_claim: dk_ssn

@@ -284,13 +284,14 @@ class Helper implements LoggerAwareInterface {
           'content' => $node->getTitle(),
         ],
       ],
-      'image' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'property' => 'og:image',
-          'content' => $this->fileUrlGenerator->generateAbsoluteString(\Drupal::config('hoeringsportal.settings')->get('logo.path')),
-        ],
-      ],
+      // @FIXME Reference to `hoeringsportal.settings`
+      // 'image' => [
+      //   '#tag' => 'meta',
+      //   '#attributes' => [
+      //     'property' => 'og:image',
+      //     'content' => $this->fileUrlGenerator->generateAbsoluteString(\Drupal::config('hoeringsportal.settings')->get('logo.path')),
+      //   ],
+      // ],
       'description' => [
         '#tag' => 'meta',
         '#attributes' => [

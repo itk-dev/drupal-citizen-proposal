@@ -1,0 +1,12 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+id: citizen_proposal.proposal_created
+configuration:
+  email_subject:
+    value: 'Tak for dit borgerforslag på [site:url]'
+  email_theme:
+    theme: _active_fallback
+  mailer_url_to_absolute: {  }

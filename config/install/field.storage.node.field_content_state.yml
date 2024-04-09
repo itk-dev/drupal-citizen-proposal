@@ -1,0 +1,40 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  module:
+    - node
+    - options
+id: node.field_content_state
+field_name: field_content_state
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: upcoming
+      label: Kommende
+    -
+      value: active
+      label: 'I gang'
+    -
+      value: finished
+      label: Afsluttet
+    -
+      value: processing
+      label: Behandles
+    -
+      value: approved
+      label: Vedtaget
+    -
+      value: rejected
+      label: Afvist
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
