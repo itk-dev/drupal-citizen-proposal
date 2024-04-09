@@ -6,6 +6,7 @@ citizen_proposal.citizen_proposal.proposal_add:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormAdd'
     _title: 'Create new proposal'
   requirements:
+    # Anonymous users (but validated with NemID) can access
     _access: 'TRUE'
 
 citizen_proposal.citizen_proposal.proposal_approve:
@@ -14,6 +15,7 @@ citizen_proposal.citizen_proposal.proposal_approve:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormApprove'
     _title: 'Create new proposal'
   requirements:
+    # Anonymous users (but validated with NemID) can access
     _access: 'TRUE'
 
 citizen_proposal.proposal_admin:
@@ -30,6 +32,7 @@ citizen_proposal.support:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormSupport'
     _title: 'Support citizen proposal'
   requirements:
+    # Anonymous users (but validated with NemID) can access
     _access: 'TRUE'
 
 citizen_proposal.admin_supporter:

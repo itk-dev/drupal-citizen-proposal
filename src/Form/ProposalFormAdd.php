@@ -203,7 +203,7 @@ final class ProposalFormAdd extends ProposalFormBase {
   private function afterBuildForm(array $form, FormStateInterface $formState) {
     // Hide text format info
     // (lifted from _allowed_formats_remove_textarea_help()).
-    foreach ($form as $key => &$element) {
+    foreach ($form as &$element) {
       if (isset($element['format'])) {
         unset(
           $element['format']['help'],
