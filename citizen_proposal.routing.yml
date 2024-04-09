@@ -1,7 +1,7 @@
 # Citizen proposal views
 # @todo link access to nemlogin.
 citizen_proposal.citizen_proposal.proposal_add:
-  path: '/citizen_proposal/add'
+  path: '/citizen-proposal/add'
   defaults:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormAdd'
     _title: 'Create new proposal'
@@ -10,7 +10,7 @@ citizen_proposal.citizen_proposal.proposal_add:
     _access: 'TRUE'
 
 citizen_proposal.citizen_proposal.proposal_approve:
-  path: '/citizen_proposal/approve'
+  path: '/citizen-proposal/approve'
   defaults:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormApprove'
     _title: 'Create new proposal'
@@ -19,7 +19,7 @@ citizen_proposal.citizen_proposal.proposal_approve:
     _access: 'TRUE'
 
 citizen_proposal.proposal_admin:
-  path: '/admin/citizen_proposal'
+  path: '/admin/citizen-proposal'
   defaults:
     _form: '\Drupal\citizen_proposal\Form\ProposalAdminForm'
     _title: 'Administer citizen proposal'
@@ -27,7 +27,7 @@ citizen_proposal.proposal_admin:
     _permission: 'administer citizen proposal'
 
 citizen_proposal.support:
-  path: '/citizen_proposal/{node}/support'
+  path: '/citizen-proposal/{node}/support'
   defaults:
     _form: '\Drupal\citizen_proposal\Form\ProposalFormSupport'
     _title: 'Support citizen proposal'
