@@ -1,0 +1,68 @@
+services:
+  logger.channel.citizen_proposal:
+    parent: logger.channel_base
+    arguments: ['citizen_proposal']
+
+  citizen_proposal.config.settings:
+    class: Drupal\Core\Config\ImmutableConfig
+    factory: ['@config.factory', 'get']
+    arguments: ['citizen_proposal.settings']
+
+  Drupal\citizen_proposal\Helper\Helper:
+    arguments:
+      - '@tempstore.private'
+      - '@serializer'
+      - '@state'
+      - '@file_url_generator'
+      - '@current_route_match'
+      - '@database'
+      - '@entity_type.manager'
+      - '@datetime.time'
+      - '@logger.channel.citizen_proposal'
+
+  Drupal\citizen_proposal\Helper\MailHelper:
+    arguments:
+      - '@Drupal\citizen_proposal\Helper\Helper'
+      - '@email_factory'
+      - '@logger.channel.citizen_proposal'
+    tags:
+      - {name: event_subscriber}
+
+  # @see https://www.drupal.org/project/drupal/issues/2376347
+  # @see https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/structure-of-a-service-file#s-properties-of-a-service
+  citizen_proposal.storage.webform:
+    class: Drupal\webform\WebformEntityStorageInterface
+    factory: ['@entity_type.manager', 'getStorage']
+    arguments: ['webform']
+
+  citizen_proposal.storage.webform_survey_temp_store:
+    class: Drupal\Core\TempStore\PrivateTempStore
+    factory: ['@tempstore.private', 'get']
+    arguments: ['citizen_proposal_survey']
+
+  citizen_proposal.storage.webform_config:
+    class: Drupal\Core\Config\ImmutableConfig
+    factory: ['@config.factory', 'get']
+    arguments: ['webform.settings']
+
+  Drupal\citizen_proposal\Helper\WebformHelper:
+    arguments:
+      - '@citizen_proposal.storage.webform'
+      - '@citizen_proposal.storage.webform_config'
+      - '@citizen_proposal.storage.webform_survey_temp_store'
+
+  Drupal\citizen_proposal\Helper\CprHelper:
+
+  Drupal\citizen_proposal\Helper\CitizenAccessChecker:
+    arguments:
+      - '@logger.channel.citizen_proposal'
+
+  Drupal\citizen_proposal\EventSubscriber\CitizenAccessCheckEventSubscriber:
+    arguments:
+      - '@citizen_proposal.config.settings'
+      - '@Drupal\citizen_proposal\Helper\Helper'
+      - '@Drupal\citizen_proposal\Helper\CprHelper'
+      - '@Drupal\citizen_proposal\Helper\CitizenAccessChecker'
+      - '@logger.channel.citizen_proposal'
+    tags:
+      - { name: 'event_subscriber' }
