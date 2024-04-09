@@ -2,8 +2,8 @@
 
 namespace Drupal\citizen_proposal\Helper;
 
-use Drupal\Core\Site\Settings;
 use Drupal\citizen_proposal\Exception\CprException;
+use Drupal\Core\Site\Settings;
 use GuzzleHttp\Client;
 use Http\Adapter\Guzzle7\Client as GuzzleAdapter;
 use Http\Factory\Guzzle\RequestFactory;

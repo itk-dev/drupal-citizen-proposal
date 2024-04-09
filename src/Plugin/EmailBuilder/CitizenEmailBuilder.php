@@ -2,11 +2,11 @@
 
 namespace Drupal\citizen_proposal\Plugin\EmailBuilder;
 
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Template\TwigEnvironment;
 use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\citizen_proposal\Helper\MailHelper;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Template\TwigEnvironment;
 use Drupal\node\NodeInterface;
 use Drupal\symfony_mailer\EmailFactoryInterface;
 use Drupal\symfony_mailer\EmailInterface;

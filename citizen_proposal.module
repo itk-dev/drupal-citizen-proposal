@@ -5,8 +5,8 @@
  * Hooks related to citizen_proposal module.
  */
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\citizen_proposal\Helper\Helper;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_theme().

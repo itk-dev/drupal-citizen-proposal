@@ -2,9 +2,9 @@
 
 namespace Drupal\citizen_proposal\Drush\Commands;
 
-use Drupal\entity_events\EntityEventType;
 use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\citizen_proposal\Helper\MailHelper;
+use Drupal\entity_events\EntityEventType;
 use Drupal\symfony_mailer\AddressInterface;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands as BaseDrushCommands;
