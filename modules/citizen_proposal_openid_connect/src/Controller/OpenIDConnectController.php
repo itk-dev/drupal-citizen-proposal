@@ -4,14 +4,13 @@ namespace Drupal\citizen_proposal_openid_connect\Controller;
 
 use Drupal\citizen_proposal_openid_connect\AuthenticationHelper;
 use Drupal\citizen_proposal_openid_connect\Event\AccessCheckEvent;
-use Drupal\citizen_proposal_openid_connect\Provider\LocalTestProvider;
+use Drupal\citizen_proposal_openid_connect\Security\LocalTestOpenIdConfigurationProvider;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\LocalRedirectResponse;
 use Drupal\Core\Routing\TrustedRedirectResponse;
-use Drupal\Core\Site\Settings;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use ItkDev\OpenIdConnect\Security\OpenIdConfigurationProvider;
@@ -29,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * Controller used for OpenID Connect authentication.
  */
-final class OpenIDConnectController implements ContainerInjectionInterface {
+class OpenIDConnectController implements ContainerInjectionInterface {
   use LoggerAwareTrait;
   use LoggerTrait;
   use StringTranslationTrait;
@@ -134,7 +133,9 @@ final class OpenIDConnectController implements ContainerInjectionInterface {
       'cacheItemPool' => $this->cacheItemPool,
     ];
 
-    return new OpenIdConfigurationProvider($providerOptions);
+    return $this->isLocalTestMode()
+      ? new LocalTestOpenIdConfigurationProvider($providerOptions)
+      : new OpenIdConfigurationProvider($providerOptions);
   }
 
   /**
@@ -283,8 +284,8 @@ final class OpenIDConnectController implements ContainerInjectionInterface {
 
     $idToken = match (TRUE) {
       $request->query->has('code') => $provider->getIdToken($request->query->get('code')),
-        $request->query->has('id_token') => $request->query->get('id_token'),
-        default => throw new BadRequestHttpException('Missing code or id_token in response')
+      $request->query->has('id_token') => $request->query->get('id_token'),
+      default => throw new BadRequestHttpException('Missing code or id_token in response')
     };
 
     $token = (array) $provider->validateIdToken($idToken, $this->getSessionValue(self::SESSION_NONCE));
@@ -365,6 +366,13 @@ final class OpenIDConnectController implements ContainerInjectionInterface {
         '#url' => $this->getLoginLocation(),
       ],
     ];
+  }
+
+  /**
+   * Is local test mode?
+   */
+  private function isLocalTestMode(): bool {
+    return (bool) ($this->helper->getSettings()['local_test_mode'] ?? FALSE);
   }
 
 }

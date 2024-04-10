@@ -2,9 +2,7 @@
 
 namespace Drupal\citizen_proposal\Form;
 
-use Drupal\citizen_proposal\CitizenProposalServiceProvider;
 use Drupal\citizen_proposal\Exception\MissingUserDataException;
-use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\citizen_proposal\Helper\AbstractAuthenticationHelper;
 use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\citizen_proposal\Helper\WebformHelper;
@@ -214,7 +212,7 @@ abstract class ProposalFormBase extends FormBase {
   /**
    * Get user data.
    */
-  protected function getUserData(string $key, bool $throw = false): null|string|array {
+  protected function getUserData(string $key, bool $throw = FALSE): null|string|array {
     $data = $this->authenticationHelper->getUserData();
 
     if ($throw && (!is_array($data) || !array_key_exists($key, $data))) {

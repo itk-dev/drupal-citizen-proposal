@@ -1,0 +1,29 @@
+{% set title = 'OS2Forms NemLogin OpenID Connect local test users' %}
+
+<div class="container-fluid">
+  <h1>{{ title }}</h1>
+
+  {% if users %}
+      {% for id, user in users %}
+        {% set url = path('citizen_proposal_openid_connect.openid_connect_authenticate', query|merge({code: user|json_encode})) %}
+        <div>
+        <a class="btn btn-outline-primary btn-block" style="text-align: left" href="{{ url }}">
+          {{ user|json_encode(constant('JSON_PRETTY_PRINT')) }}
+        </a>
+        </div>
+      {% endfor %}
+  {% else %}
+    <div class="alert alert-warning">No users defined</div>
+
+    <p>Edit <code>settings.local.php</code> and define local test users:</p>
+
+    <pre><code>// User id => user info
+$settings['citizen_proposal_openid_connect']['local_test_users'] = [
+  '1234567890' => [
+    'cpr' => '1234567890',
+    'name' => 'John Doe',
+  ],
+];
+      </code></pre>
+  {% endif %}
+</div>

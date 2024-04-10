@@ -5,10 +5,10 @@ namespace Drupal\citizen_proposal\EventSubscriber;
 use Drupal\citizen_proposal\Helper\CitizenAccessChecker;
 use Drupal\citizen_proposal\Helper\CprHelper;
 use Drupal\citizen_proposal\Helper\Helper;
+use Drupal\citizen_proposal_openid_connect\Event\AccessCheckEvent;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Logger\LoggerChannel;
 use Drupal\Core\Site\Settings;
-use Drupal\hoeringsportal_openid_connect\Event\AccessCheckEvent;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -36,7 +36,7 @@ class CitizenAccessCheckEventSubscriber implements EventSubscriberInterface {
   /**
    * Event subscriber action.
    *
-   * @param \Drupal\hoeringsportal_openid_connect\Event\AccessCheckEvent $event
+   * @param \Drupal\citizen_proposal_openid_connect\Event\AccessCheckEvent $event
    *   The event.
    */
   public function accessCheck(AccessCheckEvent $event) {
