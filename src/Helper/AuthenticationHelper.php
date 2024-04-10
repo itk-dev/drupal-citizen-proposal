@@ -2,7 +2,6 @@
 
 namespace Drupal\citizen_proposal\Helper;
 
-use Drupal\citizen_proposal_openid_connect\Controller\OpenIDConnectController;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 

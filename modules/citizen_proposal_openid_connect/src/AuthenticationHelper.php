@@ -70,7 +70,6 @@ class AuthenticationHelper extends AbstractAuthenticationHelper {
     $this->session->remove(self::SESSION_USER_DATA);
   }
 
-
   /**
    * Get this module's settings.
    *
@@ -81,6 +80,5 @@ class AuthenticationHelper extends AbstractAuthenticationHelper {
 
     return $settings ?: [];
   }
-
 
 }
