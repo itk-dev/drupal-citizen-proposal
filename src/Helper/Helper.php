@@ -274,7 +274,7 @@ class Helper implements LoggerAwareInterface {
       return;
     }
 
-    $description = strip_tags((string)$node->get('field_proposal')->processed);
+    $description = strip_tags((string) $node->get('field_proposal')->processed);
 
     $og = [
       'title' => [
@@ -296,7 +296,7 @@ class Helper implements LoggerAwareInterface {
         '#tag' => 'meta',
         '#attributes' => [
           'property' => 'og:description',
-          'content' => Unicode::truncate($description, 150, true, true),
+          'content' => Unicode::truncate($description, 150, TRUE, TRUE),
         ],
       ],
       'url' => [

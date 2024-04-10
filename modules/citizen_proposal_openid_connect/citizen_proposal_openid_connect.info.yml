@@ -1,0 +1,8 @@
+name: Citizen proposal OpenID Connect
+type: module
+description: 'Citizen proposal OpenID Connect'
+package: ITK
+core_version_requirement: ^10
+dependencies:
+  - drupal:drupal_psr6_cache
+  - drupal:citizen_proposal

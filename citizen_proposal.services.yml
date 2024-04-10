@@ -66,3 +66,8 @@ services:
       - '@logger.channel.citizen_proposal'
     tags:
       - { name: 'event_subscriber' }
+
+  citizen_proposal.authentication_helper:
+    class: Drupal\citizen_proposal\Helper\AuthenticationHelper
+    arguments:
+      - '@messenger'

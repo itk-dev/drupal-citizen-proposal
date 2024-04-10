@@ -1,0 +1,12 @@
+services:
+  logger.channel.citizen_proposal_openid_connect:
+    parent: logger.channel_base
+    arguments:
+      - 'citizen_proposal_openid_connect'
+
+  Drupal\citizen_proposal_openid_connect\AuthenticationHelper:
+    arguments:
+      - '@session'
+
+  # Override service to use our authentication helper
+  citizen_proposal.authentication_helper: '@Drupal\citizen_proposal_openid_connect\AuthenticationHelper'

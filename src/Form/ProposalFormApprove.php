@@ -175,7 +175,7 @@ final class ProposalFormApprove extends ProposalFormBase {
     $this->saveSurveyResponse($entity);
 
     $formState->setRedirectUrl(
-      $this->deAuthenticateUser(
+      $this->deauthenticateUser(
         $this->getAdminFormStateValueUrl('approve_goto_url', '/')
       )
     );
