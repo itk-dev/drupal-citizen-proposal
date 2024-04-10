@@ -4,6 +4,7 @@ namespace Drupal\citizen_proposal_openid_connect;
 
 use Drupal\citizen_proposal\Helper\AbstractAuthenticationHelper;
 use Drupal\citizen_proposal_openid_connect\Controller\OpenIDConnectController;
+use Drupal\Core\Site\Settings;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -52,6 +53,13 @@ class AuthenticationHelper extends AbstractAuthenticationHelper {
    * Set user data.
    */
   public function setUserData(array $data) {
+    $map = $this->getSettings()['openid_connect']['claims'] ?? [];
+    foreach ($map as $expected => $actual) {
+      if (isset($data[$actual])) {
+        $data[$expected] = $data[$actual];
+      }
+    }
+
     $this->session->set(self::SESSION_USER_DATA, $data);
   }
 
@@ -61,5 +69,18 @@ class AuthenticationHelper extends AbstractAuthenticationHelper {
   public function removeUserData(): void {
     $this->session->remove(self::SESSION_USER_DATA);
   }
+
+
+  /**
+   * Get this module's settings.
+   *
+   * @phpstan-return array<string, mixed>
+   */
+  public function getSettings(): array {
+    $settings = Settings::get('citizen_proposal_openid_connect', NULL);
+
+    return $settings ?: [];
+  }
+
 
 }

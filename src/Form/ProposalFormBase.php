@@ -3,6 +3,7 @@
 namespace Drupal\citizen_proposal\Form;
 
 use Drupal\citizen_proposal\CitizenProposalServiceProvider;
+use Drupal\citizen_proposal\Exception\MissingUserDataException;
 use Drupal\citizen_proposal\Exception\RuntimeException;
 use Drupal\citizen_proposal\Helper\AbstractAuthenticationHelper;
 use Drupal\citizen_proposal\Helper\Helper;
@@ -85,13 +86,12 @@ abstract class ProposalFormBase extends FormBase {
     }
 
     if ($this->isAuthenticatedAsCitizen()) {
-      $userData = $this->getUserData();
       $form['authenticated'] = [
         '#type' => 'container',
         '#attributes' => ['class' => ['authenticate-wrapper', 'py-3']],
 
         'message' => [
-          '#markup' => $this->t("You're currently authenticated as %name", ['%name' => $userData['name']]),
+          '#markup' => $this->t("You're currently authenticated as %name", ['%name' => $this->getUserData('name')]),
         ],
 
         'link' => Link::fromTextAndUrl(
@@ -133,13 +133,12 @@ abstract class ProposalFormBase extends FormBase {
    *   - remarks
    */
   protected function getDefaultFormValues(): array {
-    $userData = $this->getUserData();
     $entity = $this->helper->getDraftProposal();
 
     return [
-      'name' => $entity?->field_author_name->value ?? $userData['name'] ?? NULL,
-      'phone' => $entity?->field_author_phone->value ?? $userData['phone'] ?? NULL,
-      'email' => $entity?->field_author_email->value ?? $userData['email'] ?? NULL,
+      'name' => $entity?->field_author_name->value ?? $this->getUserData('name') ?? NULL,
+      'phone' => $entity?->field_author_phone->value ?? $this->getUserData('phone') ?? NULL,
+      'email' => $entity?->field_author_email->value ?? $this->getUserData('email') ?? NULL,
       'email_display' => $entity?->field_author_email_display->value ?? NULL,
       'title' => $entity?->title->value ?? NULL,
       'proposal' => $entity?->field_proposal->value ?? '',
@@ -196,13 +195,6 @@ abstract class ProposalFormBase extends FormBase {
   }
 
   /**
-   * Get user data.
-   */
-  protected function getUserData(): ?array {
-    return $this->authenticationHelper->getUserData();
-  }
-
-  /**
    * De-authenticate (is that a real word?) user.
    */
   protected function deauthenticateUser(Url $url = NULL): Url {
@@ -220,6 +212,19 @@ abstract class ProposalFormBase extends FormBase {
   }
 
   /**
+   * Get user data.
+   */
+  protected function getUserData(string $key, bool $throw = false): null|string|array {
+    $data = $this->authenticationHelper->getUserData();
+
+    if ($throw && (!is_array($data) || !array_key_exists($key, $data))) {
+      throw new MissingUserDataException(sprintf('Cannot get user %s', $key));
+    }
+
+    return $data[$key] ?? NULL;
+  }
+
+  /**
    * Get user UUID.
    *
    * @return string
@@ -230,12 +235,7 @@ abstract class ProposalFormBase extends FormBase {
       $userId = uniqid('editor', TRUE);
     }
     else {
-      $userData = $this->getUserData();
-      $userUuidClaim = $this->config->get('user_uuid_claim');
-      if (!isset($userData[$userUuidClaim])) {
-        throw new RuntimeException('Cannot get user identifier');
-      }
-      $userId = $userData[$userUuidClaim];
+      $userId = $this->getUserData('uuid', TRUE);
     }
 
     // Compute a GDPR safe and (hopefully) unique user identifier.

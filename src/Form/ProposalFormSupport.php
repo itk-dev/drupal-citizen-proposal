@@ -141,11 +141,10 @@ final class ProposalFormSupport extends ProposalFormBase {
    * {@inheritdoc}
    */
   protected function getDefaultFormValues(): array {
-    $userData = $this->getUserData();
-
     return [
-      'name' => $userData['name'] ?? NULL,
-      'email' => $userData['email'] ?? NULL,
+      'name' => $this->getUserData('name'),
+      'email' => $this->getUserData('email'),
+      'phone' => $this->getUserData('phone'),
     ];
   }
 

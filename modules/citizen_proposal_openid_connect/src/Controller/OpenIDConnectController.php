@@ -127,17 +127,14 @@ final class OpenIDConnectController implements ContainerInjectionInterface {
    * Get an OpenIdConfigurationProvider instance.
    */
   private function getOpenIdConfigurationProvider(): OpenIdConfigurationProvider {
-    $providerOptions = $this->getSettings()['openid_connect'] ?? [];
+    $providerOptions = $this->helper->getSettings()['openid_connect'] ?? [];
 
     $providerOptions += [
       'redirectUri' => $this->getRedirectUri(),
       'cacheItemPool' => $this->cacheItemPool,
-      'allowHttp' => TRUE,
     ];
 
-    return $this->isLocalTestMode()
-      ? new LocalTestProvider($providerOptions)
-      : new OpenIdConfigurationProvider($providerOptions);
+    return new OpenIdConfigurationProvider($providerOptions);
   }
 
   /**
@@ -258,40 +255,13 @@ final class OpenIDConnectController implements ContainerInjectionInterface {
       return Url::fromUserInput($url, [
         'path_processing' => FALSE,
       ])
-        ->setAbsolute(!$this->isLocalTestMode())
+        ->setAbsolute()
         ->toString(TRUE)->getGeneratedUrl();
     }
     catch (\Exception) {
       // Fallback if all other things fail.
       return '/';
     }
-  }
-
-  /**
-   * Is local test mode?
-   */
-  private function isLocalTestMode(): bool {
-    return (bool) ($this->getSettings()['local_test_mode'] ?? FALSE);
-  }
-
-  /**
-   * Get local test users.
-   *
-   * @phpstan-return array<string, mixed>
-   */
-  private function getLocalTestUsers(): array {
-    return (array) ($this->getSettings()['local_test_users'] ?? []);
-  }
-
-  /**
-   * Get this module's settings.
-   *
-   * @phpstan-return array<string, mixed>
-   */
-  private function getSettings(): array {
-    $settings = Settings::get('citizen_proposal_openid_connect', NULL);
-
-    return $settings ?: [];
   }
 
   /**
