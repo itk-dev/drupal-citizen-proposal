@@ -2,7 +2,9 @@
 
 namespace Drupal\citizen_proposal\Form;
 
+use Drupal\citizen_proposal\CitizenProposalServiceProvider;
 use Drupal\citizen_proposal\Exception\RuntimeException;
+use Drupal\citizen_proposal\Helper\AbstractAuthenticationHelper;
 use Drupal\citizen_proposal\Helper\Helper;
 use Drupal\citizen_proposal\Helper\WebformHelper;
 use Drupal\Core\Config\ImmutableConfig;
@@ -11,8 +13,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Drupal\hoeringsportal_openid_connect\Controller\OpenIDConnectController;
-use Drupal\hoeringsportal_openid_connect\Helper as AuthenticationHelper;
 use Drupal\node\NodeInterface;
 use Drupal\webform\WebformInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -32,7 +32,7 @@ abstract class ProposalFormBase extends FormBase {
   final public function __construct(
     readonly protected Helper $helper,
     readonly protected WebformHelper $webformHelper,
-    readonly private AuthenticationHelper $authenticationHelper,
+    readonly private AbstractAuthenticationHelper $authenticationHelper,
     readonly private ImmutableConfig $config
   ) {
   }
@@ -41,11 +41,16 @@ abstract class ProposalFormBase extends FormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
+    /** @var \Drupal\citizen_proposal\Helper\AbstractAuthenticationHelper $authenticationHelper */
+    $authenticationHelper = $container->get('citizen_proposal.authentication_helper');
+    /** @var \Drupal\Core\Config\ImmutableConfig $config */
+    $config = $container->get('citizen_proposal.config.settings');
+
     return new static(
       $container->get(Helper::class),
       $container->get(WebformHelper::class),
-      $container->get(AuthenticationHelper::class),
-      $container->get('citizen_proposal.config.settings')
+      $authenticationHelper,
+      $config
     );
   }
 
@@ -69,12 +74,9 @@ abstract class ProposalFormBase extends FormBase {
           '#text' => $this->getAuthenticateMessage(),
         ],
 
-        'link' => Link::createFromRoute(
+        'link' => Link::fromTextAndUrl(
             $this->getAdminFormStateValue('authenticate_link_text', $this->t('Authenticate with MitID')),
-              'hoeringsportal_openid_connect.openid_connect_authenticate',
-              [
-                OpenIDConnectController::QUERY_STRING_DESTINATION => Url::fromRoute('<current>')->toString(TRUE)->getGeneratedUrl(),
-              ],
+            $this->authenticationHelper->getAuthenticateUrl(),
         )->toRenderable()
         + ['#attributes' => ['class' => ['btn', 'btn-primary', 'ml-2']]],
       ];
@@ -92,12 +94,9 @@ abstract class ProposalFormBase extends FormBase {
           '#markup' => $this->t("You're currently authenticated as %name", ['%name' => $userData['name']]),
         ],
 
-        'link' => Link::createFromRoute(
+        'link' => Link::fromTextAndUrl(
           $this->getAdminFormStateValue('end_session_link_text', $this->t('Sign out')),
-          'hoeringsportal_openid_connect.openid_connect_end_session',
-          [
-            OpenIDConnectController::QUERY_STRING_DESTINATION => Url::fromRoute('<current>')->toString(TRUE)->getGeneratedUrl(),
-          ],
+          $this->authenticationHelper->getEndSessionUrl(),
         )->toRenderable()
         + [
           '#attributes' => [
@@ -206,7 +205,7 @@ abstract class ProposalFormBase extends FormBase {
   /**
    * De-authenticate (is that a real word?) user.
    */
-  protected function deAuthenticateUser(Url $url = NULL): Url {
+  protected function deauthenticateUser(Url $url = NULL): Url {
     if (NULL === $url) {
       $url = Url::fromRoute('<current>');
     }
@@ -216,12 +215,8 @@ abstract class ProposalFormBase extends FormBase {
     }
 
     $this->authenticationHelper->removeUserData();
-    return Url::fromRoute(
-      'hoeringsportal_openid_connect.openid_connect_end_session',
-      [
-        OpenIDConnectController::QUERY_STRING_DESTINATION => $url->toString(TRUE)->getGeneratedUrl(),
-      ],
-    );
+
+    return $this->authenticationHelper->getEndSessionUrl();
   }
 
   /**

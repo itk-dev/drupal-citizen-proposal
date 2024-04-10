@@ -1,0 +1,39 @@
+citizen_proposal_openid_connect.openid_connect_authenticate:
+  path: '/citizen-proposal/openid-connect/authenticate'
+  defaults:
+    _controller: '\Drupal\citizen_proposal_openid_connect\Controller\OpenIDConnectController::main'
+  requirements:
+    # Anonymous users must be able to access this route.
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'
+
+citizen_proposal_openid_connect.openid_connect_end_session:
+  path: '/citizen-proposal/openid-connect/end-session'
+  defaults:
+    _controller: '\Drupal\citizen_proposal_openid_connect\Controller\OpenIDConnectController::endSession'
+  requirements:
+    # Anonymous users must be able to access this route.
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'
+
+citizen_proposal_openid_connect.openid_connect_local_test:
+  path: '/citizen-proposal/openid-connect/local-test'
+  defaults:
+    _controller: '\Drupal\citizen_proposal_openid_connect\Controller\LocalTestController::index'
+  requirements:
+    # Anonymous users must be able to access this route.
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'
+
+citizen_proposal_openid_connect.openid_connect_local_test.end_session:
+  path: '/citizen-proposal/openid-connect/local-test/end-session'
+  defaults:
+    _controller: '\Drupal\citizen_proposal_openid_connect\Controller\LocalTestController::endSession'
+  requirements:
+    # Anonymous users must be able to access this route.
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'

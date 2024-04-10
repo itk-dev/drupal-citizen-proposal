@@ -182,7 +182,7 @@ final class ProposalFormSupport extends ProposalFormBase {
     }
 
     $form_state->setRedirectUrl(
-      $this->deAuthenticateUser(
+      $this->deauthenticateUser(
         $this->getAdminFormStateValueUrl('support_goto_url', NULL, $node->toUrl())
       )
     );

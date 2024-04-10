@@ -22,6 +22,8 @@
         "drupal/webform": "^6.2",
         "drupal/xls_serialization": "^1.3",
         "drush/drush": "^12.5",
+        "itk-dev/drupal_psr6_cache": "^1.1",
+        "itk-dev/openid-connect": "^3.1",
         "itk-dev/serviceplatformen": "^1.5"
     },
     "require-dev": {
