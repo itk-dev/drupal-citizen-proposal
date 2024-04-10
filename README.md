@@ -51,6 +51,8 @@ proposal (node).
 
 ### SMTP
 
+Set up an `SMTP` transport on `/admin/config/system/mailer/transport`.
+
 Edit `settings.local.php` and define SMTP host and port, e.g.
 
 ```php
@@ -59,6 +61,8 @@ Edit `settings.local.php` and define SMTP host and port, e.g.
 $config['symfony_mailer.mailer_transport.smtp']['configuration']['host'] = 'host.docker.internal';
 $config['symfony_mailer.mailer_transport.smtp']['configuration']['port'] = '25';
 ```
+
+(change `smtp` to the machine name of your actual transport)
 
 An confirmation email is sent to the citizen when a new proposal has been added and an editor gets a mail notification
 as well.

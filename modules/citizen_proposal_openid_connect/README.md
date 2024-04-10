@@ -31,25 +31,3 @@ Link::createFromRoute(
 
 Calling `getUserData` on the `Drupal\citizen_proposal_openid_connect\Helper`
 service will return the current user data if any. `
-
-## Local test
-
-Mock authenticating with local test users can be enabled in `settings.local.php`:
-
-```php
-// Enable local test mode
-$settings['citizen_proposal_openid_connect']['local_test_mode'] = TRUE;
-
-// Define local test users
-//   User id => user info (claims)
-$settings['citizen_proposal_openid_connect']['local_test_users'] = [
-  '1234567890' => [
-    // The kay must equal value of setting citizen_proposal.settings.user_uuid_claim
-    'dk_ssn' => '1234567890',
-    'name' => 'John Doe',
-  ],
-  'another-user' => [
-    …
-  ],
-];
-```
