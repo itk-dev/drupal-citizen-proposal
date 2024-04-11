@@ -51,7 +51,7 @@ proposal (node).
 
 ### SMTP
 
-The `config/install` folder contains config for an SMTP mailer transport. Install it by running
+The `config/site` folder contains config for an SMTP mailer transport. Install it by running
 
 ``` shell
 drush --yes pm:enable config
@@ -141,8 +141,8 @@ Content
 Deltag aarhus</p>
 ```
 
-The notification mails use templates in
-`../../../themes/custom/hoeringsportal/templates/email/citizen-proposal/`
+See [email-wrap--citizen-proposal.html.twig](templates/email/email-wrap--citizen-proposal.html.twig) for an example
+email wrapper.
 
 ### Testing and debugging email
 
