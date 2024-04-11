@@ -51,18 +51,35 @@ proposal (node).
 
 ### SMTP
 
-Set up an `SMTP` transport on `/admin/config/system/mailer/transport`.
+The `config/install` folder contains config for an SMTP mailer transport. Install it by running
 
-Edit `settings.local.php` and define SMTP host and port, e.g.
+``` shell
+drush --yes pm:enable config
+drush --yes config:import --partial --source "$(drush php:eval "echo \Drupal::service('extension.list.module')->getPath('citizen_proposal')")/config/site"
+drush --yes pm:uninstall config
+```
+
+You can also manually set up an `SMTP` transport on `/admin/config/system/mailer/transport`.
+
+If your (development) setup requires other SMTP config values, you can override them in `settings.local.php`, e.g.:
 
 ```php
 # web/sites/default/settings.local.php
 # For server deployment
 $config['symfony_mailer.mailer_transport.smtp']['configuration']['host'] = 'host.docker.internal';
 $config['symfony_mailer.mailer_transport.smtp']['configuration']['port'] = '25';
+
+# Optionally, set the default transport
+$config['symfony_mailer.settings']['default_transport'] = 'smtp';
 ```
 
 (change `smtp` to the machine name of your actual transport)
+
+Check the actual settings with
+
+``` shell
+drush config:get symfony_mailer.mailer_transport.smtp --include-overridden
+```
 
 An confirmation email is sent to the citizen when a new proposal has been added and an editor gets a mail notification
 as well.
@@ -135,12 +152,12 @@ The Drush command `citizen-proposal:test-mail:send` can be used to debug emails:
 drush citizen-proposal:test-mail:send --help
 ```
 
-After [loading fixtures](../../../../documentation/localDevelopment.md), run something like
+After [loading fixtures](docs/Development.md), run something like
 
 ```shell
 # Get a list of citizen proposal ids
-docker compose exec phpfpm vendor/bin/drush sql:query "SELECT nid, title FROM node_field_data WHERE type = 'citizen_proposal'"
-docker compose exec phpfpm vendor/bin/drush citizen-proposal:test-mail:send 87 create test@example.com
+docker compose exec phpfpm vendor/bin/drush --extra=--table sql:query "SELECT nid, title FROM node_field_data WHERE type = 'citizen_proposal'"
+docker compose exec phpfpm vendor/bin/drush citizen-proposal:test-mail:send «nid from above» create test@example.com
 ```
 
 ## Surveys
