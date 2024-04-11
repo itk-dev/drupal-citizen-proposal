@@ -19,6 +19,7 @@ use Symfony\Component\Yaml\Yaml;
  * @package Drupal\citizen_proposal_fixtures\Fixture
  */
 class CitizenProposalFixture extends AbstractFixture implements FixtureGroupInterface {
+  private const DATE_TIME_FORMAT = 'Y-m-d\TH:i:s';
 
   /**
    * Constructor.
@@ -43,7 +44,7 @@ class CitizenProposalFixture extends AbstractFixture implements FixtureGroupInte
       'status' => NodeInterface::PUBLISHED,
       'field_author_uuid' => '1111',
       'field_author_name' => 'Anders And',
-      'field_author_email' => 'anders.and@itkdev.dk',
+      'field_author_email' => 'aand@eksempel.dk',
       'field_content_state' => 'upcoming',
       'field_proposal' => [
         'value' => <<<'VALUE'
@@ -62,8 +63,8 @@ VALUE,
 
     // field_vote_start and field_vote_end are set on first publish, so we set
     // it after saving once.
-    $entity->field_vote_start->setValue(DrupalDateTime::createFromFormat('U', strtotime('tomorrow'))->format('Y-m-d\TH:i:s'));
-    $entity->field_vote_end->setValue(DrupalDateTime::createFromFormat('U', strtotime('tomorrow +3 months'))->format('Y-m-d\TH:i:s'));
+    $entity->field_vote_start->setValue((new DrupalDateTime('tomorrow'))->format(self::DATE_TIME_FORMAT));
+    $entity->field_vote_end->setValue((new DrupalDateTime('tomorrow + 3 months'))->format(self::DATE_TIME_FORMAT));
     $entity->save();
 
     $this->addReference('node:citizen_proposal:Proposal1', $entity);
@@ -79,7 +80,7 @@ VALUE,
       'status' => NodeInterface::PUBLISHED,
       'field_author_uuid' => '2222',
       'field_author_name' => 'Fedtmule',
-      'field_author_email' => 'fedtmule@itkdev.dk',
+      'field_author_email' => 'fedtmule@eksempel.dk',
       'field_content_state' => 'finished',
       'field_proposal' => [
         'value' => <<<'VALUE'
@@ -96,8 +97,9 @@ VALUE,
     ]);
     $entity->save();
 
-    $entity->field_vote_start->setValue(DrupalDateTime::createFromFormat('U', strtotime('yesterday -3 months'))->format('Y-m-d\TH:i:s'));
-    $entity->field_vote_end->setValue(DrupalDateTime::createFromFormat('U', strtotime('yesterday'))->format('Y-m-d\TH:i:s'));
+    $entity->field_vote_start->setValue((new DrupalDateTime('yesterday - 3 months'))->format(self::DATE_TIME_FORMAT));
+    $entity->field_vote_end->setValue((new DrupalDateTime('yesterday'))->format(self::DATE_TIME_FORMAT));
+
     $entity->save();
 
     $this->addReference('node:citizen_proposal:Proposal2', $entity);
@@ -113,7 +115,7 @@ VALUE,
       'status' => NodeInterface::NOT_PUBLISHED,
       'field_author_uuid' => '3333',
       'field_author_name' => 'Hexia De Trick',
-      'field_author_email' => 'givmiglykkemønten@itkdev.dk',
+      'field_author_email' => 'givmiglykkemønten@eksempel.dk',
       'field_content_state' => 'active',
       'field_proposal' => [
         'value' => <<<'VALUE'
@@ -136,14 +138,6 @@ VALUE,
     if (isset($data['citizen_proposal_admin_form_values'])) {
       $values = $data['citizen_proposal_admin_form_values'];
 
-      // @FIXME How do we handles the pages around proposals
-      // /** @var \Drupal\node\Entity\NodeInterface $node */
-      // $node = $this->getReference('node:static_page:thanks');
-      // $values['approve_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
-      //
-      // /** @var \Drupal\node\Entity\NodeInterface $node */
-      // $node = $this->getReference('node:landing_page:Proposals');
-      // $values['cancel_goto_url'] = $node->toUrl(options: ['alias' => TRUE])->toString();
       $this->helper->setAdminValues($values);
     }
   }
