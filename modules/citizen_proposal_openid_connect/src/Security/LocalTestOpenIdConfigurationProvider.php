@@ -7,11 +7,11 @@ use Drupal\Core\Url;
 use ItkDev\OpenIdConnect\Security\OpenIdConfigurationProvider;
 
 /**
- *
+ * OpenID Connect configuration provider for local test.
  */
 class LocalTestOpenIdConfigurationProvider extends OpenIdConfigurationProvider {
 
-  public function __construct(array $options = [], array $collaborators = []) {
+  public function __construct() {
   }
 
   /**
@@ -37,14 +37,14 @@ class LocalTestOpenIdConfigurationProvider extends OpenIdConfigurationProvider {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getIdToken(string $code): string {
     return $code;
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function validateIdToken(string $idToken, string $nonce): object {
     return json_decode($idToken);

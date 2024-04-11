@@ -269,8 +269,7 @@ class Helper implements LoggerAwareInterface {
   public function proposalPageAttachments(&$page): void {
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->routeMatch->getParameter('node');
-    if (!$node
-      || 'citizen_proposal' !== $node->bundle()) {
+    if (!$node || 'citizen_proposal' !== $node->bundle()) {
       return;
     }
 
@@ -284,14 +283,6 @@ class Helper implements LoggerAwareInterface {
           'content' => $node->getTitle(),
         ],
       ],
-      // @FIXME Reference to `hoeringsportal.settings`
-      // 'image' => [
-      //   '#tag' => 'meta',
-      //   '#attributes' => [
-      //     'property' => 'og:image',
-      //     'content' => $this->fileUrlGenerator->generateAbsoluteString(\Drupal::config('hoeringsportal.settings')->get('logo.path')),
-      //   ],
-      // ],
       'description' => [
         '#tag' => 'meta',
         '#attributes' => [

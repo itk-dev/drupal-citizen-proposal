@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
- * A helper.
+ * Authentication helper.
  */
 class AuthenticationHelper extends AbstractAuthenticationHelper {
   private const SESSION_USER_DATA = 'citizen_proposal_openid_connect_user_data';

@@ -6,7 +6,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 
 /**
- *
+ * Authentication helper.
  */
 class AuthenticationHelper extends AbstractAuthenticationHelper {
 

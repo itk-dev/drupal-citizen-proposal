@@ -33,9 +33,10 @@ For the functionality of the module to work properly, certain cron jobs need to 
 
 ## Settings
 
-The module supports certain settings in settings.php
+The module supports certain settings in `settings.local.php`:
 
 ```php
+# web/sites/default/settings.local.php
 // The duration of a proposal voting period.
 $settings['proposal_period_length'] = '+180 days';
 
@@ -142,7 +143,7 @@ Deltag aarhus</p>
 ```
 
 See [email-wrap--citizen-proposal.html.twig](templates/email/email-wrap--citizen-proposal.html.twig) for an example
-email wrapper.
+email wrapper that you can use in your Drupal theme.
 
 ### Testing and debugging email
 

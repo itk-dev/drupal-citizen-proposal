@@ -21,7 +21,7 @@ class LocalTestController extends ControllerBase {
   ) {}
 
   /**
-   *
+   * Main.
    */
   public function main(Request $request): array {
     $users = $this->helper->getSettings()['local_test_users'] ?? [];
@@ -35,9 +35,6 @@ class LocalTestController extends ControllerBase {
 
   /**
    * End OpenID Connect session.
-   *
-   * @return \Symfony\Component\HttpFoundation\Response
-   *   The response.
    */
   public function endSession(Request $request): Response {
     $this->helper->removeUserData();

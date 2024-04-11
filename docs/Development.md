@@ -24,9 +24,9 @@ run the checks locally.
 
 ```sh
 docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer install
- Fix (some) coding standards issues
+# Fix (some) coding standards issues
 docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-apply
- Check that code adheres to the coding standards
+# Check that code adheres to the coding standards
 docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer coding-standards-check
 ```
 
@@ -34,9 +34,9 @@ docker run --rm --volume ${PWD}:/app --workdir /app itkdev/php8.3-fpm composer c
 
 ```sh
 docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn install
- Fix (some) coding standards issues.
+# Fix (some) coding standards issues.
 docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-apply/markdownlint
- Check that code adheres to the coding standards
+# Check that code adheres to the coding standards
 docker run --rm --volume ${PWD}:/app --workdir /app node:20 yarn coding-standards-check/markdownlint
 ```
 
