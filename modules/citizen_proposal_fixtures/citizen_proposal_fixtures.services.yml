@@ -1,0 +1,8 @@
+services:
+  Drupal\citizen_proposal_fixtures\Fixture\CitizenProposalFixture:
+    tags:
+      - { name: content_fixture }
+    arguments:
+      - '@Drupal\citizen_proposal\Helper\Helper'
+      - '@event_dispatcher'
+      - '@Drupal\citizen_proposal\Helper\MailHelper'

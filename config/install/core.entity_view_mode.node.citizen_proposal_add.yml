@@ -1,0 +1,12 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  module:
+    - node
+id: node.citizen_proposal_add
+label: 'Citizen proposal add'
+description: ''
+targetEntityType: node
+cache: true

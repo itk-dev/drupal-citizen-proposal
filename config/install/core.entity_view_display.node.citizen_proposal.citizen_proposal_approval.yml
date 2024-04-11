@@ -1,0 +1,76 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - core.entity_view_mode.node.citizen_proposal_approval
+    - field.field.node.citizen_proposal.field_author_allow_email
+    - field.field.node.citizen_proposal.field_author_email
+    - field.field.node.citizen_proposal.field_author_email_display
+    - field.field.node.citizen_proposal.field_author_name
+    - field.field.node.citizen_proposal.field_author_phone
+    - field.field.node.citizen_proposal.field_author_uuid
+    - field.field.node.citizen_proposal.field_city_council_meeting_date
+    - field.field.node.citizen_proposal.field_content_state
+    - field.field.node.citizen_proposal.field_more_info
+    - field.field.node.citizen_proposal.field_proposal
+    - field.field.node.citizen_proposal.field_remarks
+    - field.field.node.citizen_proposal.field_status_description
+    - field.field.node.citizen_proposal.field_status_title
+    - field.field.node.citizen_proposal.field_vote_end
+    - field.field.node.citizen_proposal.field_vote_start
+    - node.type.citizen_proposal
+  module:
+    - text
+    - user
+id: node.citizen_proposal.citizen_proposal_approval
+targetEntityType: node
+bundle: citizen_proposal
+mode: citizen_proposal_approval
+content:
+  field_author_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_author_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_proposal:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_remarks:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_author_allow_email: true
+  field_author_email_display: true
+  field_author_phone: true
+  field_author_uuid: true
+  field_city_council_meeting_date: true
+  field_content_state: true
+  field_more_info: true
+  field_status_description: true
+  field_status_title: true
+  field_vote_end: true
+  field_vote_start: true
+  langcode: true
+  links: true
+  published_at: true
+  sharing_buttons: true

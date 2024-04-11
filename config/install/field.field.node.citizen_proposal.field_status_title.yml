@@ -1,0 +1,20 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - field.storage.node.field_status_title
+    - node.type.citizen_proposal
+id: node.citizen_proposal.field_status_title
+field_name: field_status_title
+entity_type: node
+bundle: citizen_proposal
+label: 'status title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

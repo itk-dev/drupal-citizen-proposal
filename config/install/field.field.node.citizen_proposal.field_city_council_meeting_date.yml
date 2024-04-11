@@ -1,0 +1,22 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - field.storage.node.field_city_council_meeting_date
+    - node.type.citizen_proposal
+  module:
+    - datetime
+id: node.citizen_proposal.field_city_council_meeting_date
+field_name: field_city_council_meeting_date
+entity_type: node
+bundle: citizen_proposal
+label: 'city ​​council meeting date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

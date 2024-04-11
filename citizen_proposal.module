@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Hooks related to citizen_proposal module.
+ */
+
+use Drupal\citizen_proposal\Helper\Helper;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function citizen_proposal_theme() {
+  return [
+    'form__proposal_add_form' => [
+      'template' => 'form--proposal-add-form',
+      'base hook' => 'form',
+    ],
+    'form__proposal_approve_form' => [
+      'template' => 'form--proposal-approve-form',
+      'base hook' => 'form',
+    ],
+    'form__proposal_support_form' => [
+      'template' => 'form--proposal-support-form',
+      'base hook' => 'form',
+    ],
+    'citizen_proposal_support_counter' => [
+      'template' => 'citizen-proposal-support-counter',
+      'variables' => [
+        'data' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function citizen_proposal_preprocess_form__proposal_add_form(&$variables) {
+  Drupal::service(Helper::class)->preprocessForm($variables);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function citizen_proposal_preprocess_form__proposal_approve_form(&$variables) {
+  Drupal::service(Helper::class)->preprocessForm($variables);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function citizen_proposal_preprocess_node(&$variables) {
+  Drupal::service(Helper::class)->preprocessNode($variables);
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function citizen_proposal_page_attachments(array &$page) {
+  Drupal::service(Helper::class)->proposalPageAttachments($page);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function citizen_proposal_node_presave(EntityInterface $entity) {
+  Drupal::service(Helper::class)->nodeEntityPresave($entity);
+}

@@ -1,0 +1,15 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - user.role.citizen_proposal_editor
+  module:
+    - user
+id: user_add_role_action.citizen_proposal_editor
+label: 'Add the Citizen proposal editor role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: citizen_proposal_editor

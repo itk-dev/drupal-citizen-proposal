@@ -1,0 +1,25 @@
+status: true
+dependencies:
+  enforced:
+    module:
+      - citizen_proposal
+  config:
+    - field.storage.node.field_more_info
+    - filter.format.filtered_html
+    - node.type.citizen_proposal
+  module:
+    - text
+id: node.citizen_proposal.field_more_info
+field_name: field_more_info
+entity_type: node
+bundle: citizen_proposal
+label: 'Vil du vide mere?'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - filtered_html
+field_type: text_long

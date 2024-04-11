@@ -1,0 +1,49 @@
+# Citizen proposal views
+# @todo link access to nemlogin.
+citizen_proposal.citizen_proposal.proposal_add:
+  path: '/citizen-proposal/add'
+  defaults:
+    _form: '\Drupal\citizen_proposal\Form\ProposalFormAdd'
+    _title: 'Create new proposal'
+  requirements:
+    # Anonymous users (but validated with NemID) can access
+    _access: 'TRUE'
+
+citizen_proposal.citizen_proposal.proposal_approve:
+  path: '/citizen-proposal/approve'
+  defaults:
+    _form: '\Drupal\citizen_proposal\Form\ProposalFormApprove'
+    _title: 'Create new proposal'
+  requirements:
+    # Anonymous users (but validated with NemID) can access
+    _access: 'TRUE'
+
+citizen_proposal.proposal_admin:
+  path: '/admin/citizen-proposal'
+  defaults:
+    _form: '\Drupal\citizen_proposal\Form\ProposalAdminForm'
+    _title: 'Administer citizen proposal'
+  requirements:
+    _permission: 'administer citizen proposal'
+
+citizen_proposal.support:
+  path: '/citizen-proposal/{node}/support'
+  defaults:
+    _form: '\Drupal\citizen_proposal\Form\ProposalFormSupport'
+    _title: 'Support citizen proposal'
+  requirements:
+    # Anonymous users (but validated with NemID) can access
+    _access: 'TRUE'
+
+citizen_proposal.admin_supporter:
+  path: '/node/{node}/supporters'
+  defaults:
+    _controller: '\Drupal\citizen_proposal\Controller\Controller::supporters'
+    _title: 'Supporters'
+  requirements:
+    _permission: 'administer citizen proposal'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node

@@ -1,0 +1,8 @@
+name: Citizen proposal fixtures
+type: module
+description: 'Citizen proposal fixtures'
+core_version_requirement: ^10
+package: ITK
+dependencies:
+  - content_fixtures:content_fixtures
+  - citizen_proposal:citizen_proposal
